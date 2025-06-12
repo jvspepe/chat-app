@@ -7,9 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import SignUpForm from './sign-up-form';
+import { SignUpForm } from './sign-up-form';
 
-export default function SignUp() {
+export function SignUp() {
   return (
     <Card className="min-w-80">
       <CardHeader>

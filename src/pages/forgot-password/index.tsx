@@ -33,7 +33,7 @@ const defaultValues: FormSchema = {
   email: '',
 };
 
-export default function ForgotPassword() {
+export function ForgotPassword() {
   const form = useForm<FormSchema>({
     defaultValues,
     resolver: zodResolver(formSchema),

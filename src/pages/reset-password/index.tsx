@@ -55,7 +55,7 @@ const defaultValues: FormSchema = {
   passwordConfirm: '',
 };
 
-export default function ResetPassword() {
+export function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
 
   const [searchParams] = useSearchParams();

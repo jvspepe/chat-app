@@ -34,7 +34,7 @@ const defaultValues: FormSchema = {
   keepConnected: false,
 };
 
-export default function SignInForm() {
+export function SignInForm() {
   const navigate = useNavigate();
 
   const form = useForm<FormSchema>({

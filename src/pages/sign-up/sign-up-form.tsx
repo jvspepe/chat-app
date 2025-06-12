@@ -53,7 +53,7 @@ const defaultValues: FormSchema = {
   keepConnected: false,
 };
 
-export default function SignUpForm() {
+export function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();

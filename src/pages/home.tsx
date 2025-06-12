@@ -3,7 +3,7 @@ import { useAuth } from '@/contexts/auth/hook';
 import { Button } from '@/components/ui/button';
 import { signOut } from '@/features/users';
 
-export default function Home() {
+export function Home() {
   const { currentUser } = useAuth();
 
   return (

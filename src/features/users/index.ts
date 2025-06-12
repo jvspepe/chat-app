@@ -28,7 +28,7 @@ export function handleCurrentUser(
   return unsubscribe;
 }
 
-async function handleKeepConnected(keepConnected: boolean) {
+async function handleKeepUserConnected(keepConnected: boolean) {
   try {
     await setPersistence(
       auth,
@@ -42,11 +42,11 @@ async function handleKeepConnected(keepConnected: boolean) {
 export async function signUp(
   email: string,
   password: string,
-  name: string,
+  username: string,
   keepConnected: boolean = false,
 ): Promise<void> {
   try {
-    await handleKeepConnected(keepConnected);
+    await handleKeepUserConnected(keepConnected);
 
     const { user } = await createUserWithEmailAndPassword(
       auth,
@@ -55,13 +55,13 @@ export async function signUp(
     );
 
     await Promise.all([
-      updateProfile(user, { displayName: name }),
+      updateProfile(user, { displayName: username }),
       setDoc(
         doc(database, 'users', user.uid).withConverter(converter<User>()),
         {
           id: user.uid,
           email,
-          name,
+          username,
         },
       ),
     ]);
@@ -76,7 +76,7 @@ export async function signIn(
   keepConnected: boolean = false,
 ) {
   try {
-    await handleKeepConnected(keepConnected);
+    await handleKeepUserConnected(keepConnected);
 
     await signInWithEmailAndPassword(auth, email, password);
   } catch (error) {
