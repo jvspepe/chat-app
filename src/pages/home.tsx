@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
-import useAuth from '@/contexts/auth/hook';
+import { useAuth } from '@/contexts/auth/hook';
 import { Button } from '@/components/ui/button';
-import { signOut } from '@/firebase/auth';
+import { signOut } from '@/features/users';
 
 export default function Home() {
   const { currentUser } = useAuth();

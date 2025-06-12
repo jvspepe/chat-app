@@ -7,4 +7,4 @@ interface AuthContext {
 
 const AuthContext = createContext<AuthContext | null>(null);
 
-export default AuthContext;
+export { AuthContext };

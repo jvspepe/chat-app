@@ -13,10 +13,10 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import type User from '@/types/user';
-import { auth, database } from '@/firebase/config';
-import { converter } from '@/firebase/utils';
-import { env } from '@/lib/utils';
+import { type User } from '@/types/models';
+import { auth, database } from '@/configs/app';
+import { env } from '@/configs/env';
+import { converter } from '@/features/utils';
 
 export function handleCurrentUser(
   callback: (user: FirebaseUser | null) => void,

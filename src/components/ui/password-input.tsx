@@ -13,7 +13,7 @@ interface PasswordInputProps extends Omit<ComponentProps<'input'>, 'type'> {
   setShowPassword?: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function PasswordInput({
+export function PasswordInput({
   showPassword: controlledShowPassword,
   setShowPassword: setControlledShowPassword,
   className,

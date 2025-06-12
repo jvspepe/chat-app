@@ -3,8 +3,8 @@ import { z } from 'zod';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FaArrowLeft, FaSpinner } from 'react-icons/fa6';
-import { forgotPassword } from '@/firebase/auth';
-import { handleError } from '@/firebase/utils';
+import { forgotPassword } from '@/features/users';
+import { handleError } from '@/features/utils';
 import { Button } from '@/components/ui/button';
 import {
   Card,

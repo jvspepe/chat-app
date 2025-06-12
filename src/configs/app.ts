@@ -2,7 +2,7 @@ import { type FirebaseOptions, initializeApp } from 'firebase/app';
 import { connectAuthEmulator, getAuth } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import { connectStorageEmulator, getStorage } from 'firebase/storage';
-import { env } from '@/lib/utils';
+import { env } from '@/configs/env';
 
 const config: FirebaseOptions = {
   apiKey: env.VITE_FIREBASE_API_KEY,

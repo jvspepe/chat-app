@@ -4,9 +4,9 @@ import { z } from 'zod';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FaSpinner } from 'react-icons/fa6';
-import type User from '@/types/user';
-import { signUp } from '@/firebase/auth';
-import { handleError } from '@/firebase/utils';
+import { type User } from '@/types/models';
+import { signUp } from '@/features/users';
+import { handleError } from '@/features/utils';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -18,7 +18,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input as FormInput } from '@/components/ui/input';
-import PasswordInput from '@/components/ui/password-input';
+import { PasswordInput } from '@/components/ui/password-input';
 
 const REQUIRED_FIELD = 'Campo obrigatório';
 

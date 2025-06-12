@@ -1,7 +1,7 @@
 import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { type User } from 'firebase/auth';
-import { handleCurrentUser } from '@/firebase/auth';
-import AuthContext from './context';
+import { handleCurrentUser } from '@/features/users';
+import { AuthContext } from './context';
 
 interface Props {
   children: ReactNode;
