@@ -1,5 +1,3 @@
-import { database } from '@/configs/app';
-import { FriendRequest } from '@/types/models';
 import {
   collection,
   doc,
@@ -12,8 +10,14 @@ import {
   Timestamp,
   where,
 } from 'firebase/firestore';
+import { type FriendRequest } from '@/types/models';
+import { database } from '@/configs/app';
+import { converter } from '@/features/utils';
 
-async function checkFriendRequest(senderId: string, receiverId: string) {
+async function checkFriendRequest(
+  senderId: string,
+  receiverId: string,
+): Promise<boolean> {
   const friendRequestQuery = query(
     collection(database, 'friend_requests'),
     or(
@@ -24,7 +28,7 @@ async function checkFriendRequest(senderId: string, receiverId: string) {
 
   const check = await getCountFromServer(friendRequestQuery);
 
-  return check.data().count;
+  return check.data().count > 0;
 }
 
 export async function createFriendRequest(
@@ -67,6 +71,21 @@ export async function createFriendRequest(
     doc(database, 'friend_requests', friendRequestData.id),
     friendRequestData,
   );
+}
+
+export async function fetchUserFriendRequests(
+  userId: string,
+): Promise<FriendRequest[]> {
+  const friendRequestQuery = query(
+    collection(database, 'friend_requests').withConverter(
+      converter<FriendRequest>(),
+    ),
+    or(where('senderId', '==', userId), where('receiverId', '==', userId)),
+  );
+
+  const friendRequests = await getDocs(friendRequestQuery);
+
+  return friendRequests.docs.map((doc) => doc.data());
 }
 
 export async function updateFriendRequest(
