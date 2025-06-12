@@ -9,7 +9,7 @@ import { ResetPassword } from '@/pages/reset-password';
 import { Chats } from '@/pages/chats';
 import { ProtectedRoute } from './protected-route';
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     element: <AuthLayout />,
     children: [
@@ -50,5 +50,3 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
-export default router;

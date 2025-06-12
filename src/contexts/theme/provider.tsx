@@ -7,7 +7,7 @@ type ThemeProviderProps = {
   storageKey?: string;
 };
 
-export default function ThemeProvider({
+export function ThemeProvider({
   children,
   defaultTheme = 'system',
   storageKey = 'chat-app-theme',

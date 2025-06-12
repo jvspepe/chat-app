@@ -7,7 +7,7 @@ interface Props {
   children: ReactNode;
 }
 
-export default function AuthProvider({ children }: Props) {
+export function AuthProvider({ children }: Props) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
