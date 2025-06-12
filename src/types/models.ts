@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { Timestamp } from 'firebase/firestore';
 
 export interface User {
@@ -6,11 +7,13 @@ export interface User {
   username: string;
 }
 
-export interface FriendRequest {
-  id: string;
-  senderId: string;
-  receiverId: string;
-  status: 'pending' | 'accepted' | 'rejected';
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
-}
+export const FriendRequestSchema = z.object({
+  id: z.string().uuid(),
+  senderId: z.string().uuid(),
+  receiverId: z.string().uuid(),
+  status: z.enum(['pending', 'accepted', 'rejected']),
+  createdAt: z.instanceof(Timestamp),
+  updatedAt: z.instanceof(Timestamp),
+});
+
+export type FriendRequest = z.infer<typeof FriendRequestSchema>;
