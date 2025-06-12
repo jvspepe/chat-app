@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import { paths } from '@/configs/paths';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -22,7 +23,7 @@ export function SignIn() {
             variant="link"
             className="p-0"
           >
-            <Link to="/sign-up">Criar</Link>
+            <Link to={paths.signUp}>Criar</Link>
           </Button>
         </div>
       </CardHeader>
