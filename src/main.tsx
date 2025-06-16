@@ -18,7 +18,7 @@ createRoot(root).render(
       <ThemeProvider>
         <AuthProvider>
           <RouterProvider router={router} />
-          <Toaster />
+          <Toaster richColors />
         </AuthProvider>
       </ThemeProvider>
     </Suspense>
