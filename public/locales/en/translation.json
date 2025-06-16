@@ -10,8 +10,21 @@
     "warning": "Warning",
     "info": "Info"
   },
+  "auth": {
+    "signUp": {
+      "profilePicture": "Profile Picture",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "rememberMe": "Remember Me"
+    }
+  },
   "friend-requests": {
     "heading": "Friend Requests",
+    "description": "Manage your friend requests",
     "inputs": {
       "username": "Username",
       "username-placeholder": "@john_doe"
