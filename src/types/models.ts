@@ -1,16 +1,37 @@
 import { z } from 'zod';
 import { Timestamp } from 'firebase/firestore';
 
-export interface User {
-  id: string;
-  email: string;
-  username: string;
-}
+export const UserSchema = z.object({
+  id: z.string(),
+  email: z.string().email().nonempty(),
+  username: z
+    .string()
+    .min(3)
+    .max(20)
+    .trim()
+    .regex(
+      /^[a-z0-9-]+$/,
+      'Somente letras minúsculas, números e hífens são permitidos',
+    ),
+  displayName: z.string().nonempty().trim(),
+  avatarUrl: z.string().url(),
+});
+
+export type User = z.infer<typeof UserSchema>;
+
+const FriendRequestUserDataSchema = UserSchema.pick({
+  id: true,
+  username: true,
+  displayName: true,
+  avatarUrl: true,
+});
+
+export type FriendRequestUserData = z.infer<typeof FriendRequestUserDataSchema>;
 
 export const FriendRequestSchema = z.object({
-  id: z.string().uuid(),
-  senderId: z.string().uuid(),
-  receiverId: z.string().uuid(),
+  id: z.string(),
+  senderData: FriendRequestUserDataSchema,
+  receiverData: FriendRequestUserDataSchema,
   status: z.enum(['pending', 'accepted', 'rejected']),
   createdAt: z.instanceof(Timestamp),
   updatedAt: z.instanceof(Timestamp),
