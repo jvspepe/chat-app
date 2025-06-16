@@ -1,8 +1,10 @@
 import { createContext } from 'react';
-import { type User } from 'firebase/auth';
+import { type User as AuthUser } from 'firebase/auth';
+import { type User } from '@/types/models';
 
 export interface IAuthContext {
-  currentUser: User | null;
+  currentUser: AuthUser | null;
+  currentUserData: User | null;
 }
 
 const AuthContext = createContext<IAuthContext | null>(null);
