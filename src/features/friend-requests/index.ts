@@ -4,13 +4,18 @@ import {
   documentId,
   getCountFromServer,
   getDocs,
+  onSnapshot,
   or,
   query,
   setDoc,
   Timestamp,
   where,
 } from 'firebase/firestore';
-import { type FriendRequest } from '@/types/models';
+import {
+  type FriendRequestUserData,
+  type User,
+  type FriendRequest,
+} from '@/types/models';
 import { database } from '@/configs/app';
 import { converter } from '@/features/utils';
 
@@ -32,12 +37,12 @@ async function checkFriendRequest(
 }
 
 export async function createFriendRequest(
-  senderId: string,
+  senderData: FriendRequestUserData,
   receiverUsername: string,
 ) {
   // 1 - Get user document with matching username
   const receiverQuery = query(
-    collection(database, 'users'),
+    collection(database, 'users').withConverter(converter<User>()),
     where('username', '==', receiverUsername),
   );
 
@@ -48,7 +53,8 @@ export async function createFriendRequest(
     throw new Error(`User with username ${receiverUsername} not found`);
   }
 
-  const receiverId = receiverDoc.docs[0].id;
+  const { id: senderId } = senderData;
+  const receiverId = receiverDoc.docs[0].data().id;
 
   // Check if friend-request already exists, if true, handle error/return
   if (await checkFriendRequest(senderId, receiverId)) {
@@ -59,8 +65,13 @@ export async function createFriendRequest(
 
   const friendRequestData: FriendRequest = {
     id: `${senderId}_${receiverId}`,
-    senderId,
-    receiverId,
+    senderData,
+    receiverData: {
+      id: receiverId,
+      displayName: receiverDoc.docs[0].data().displayName,
+      username: receiverDoc.docs[0].data().username,
+      avatarUrl: receiverDoc.docs[0].data().avatarUrl,
+    },
     status: 'pending',
     createdAt: timestamp,
     updatedAt: timestamp,
@@ -80,12 +91,36 @@ export async function fetchUserFriendRequests(
     collection(database, 'friend_requests').withConverter(
       converter<FriendRequest>(),
     ),
-    or(where('senderId', '==', userId), where('receiverId', '==', userId)),
+    or(
+      where('senderData.id', '==', userId),
+      where('receiverData.id', '==', userId),
+    ),
   );
 
   const friendRequests = await getDocs(friendRequestQuery);
 
   return friendRequests.docs.map((doc) => doc.data());
+}
+
+export function listenUserFriendRequests(
+  userId: string,
+  fn: (snapshot: FriendRequest[]) => void,
+) {
+  const friendRequestQuery = query(
+    collection(database, 'friend_requests').withConverter(
+      converter<FriendRequest>(),
+    ),
+    or(
+      where('senderData.id', '==', userId),
+      where('receiverData.id', '==', userId),
+    ),
+  );
+
+  const unsubscribe = onSnapshot(friendRequestQuery, (doc) => {
+    fn(doc.docs.map((doc) => doc.data()));
+  });
+
+  return unsubscribe;
 }
 
 export async function updateFriendRequest(
