@@ -9,7 +9,7 @@ import { type FriendRequest } from '@/types/models';
 import { useAuth } from '@/contexts/auth/hook';
 import {
   createFriendRequest,
-  listenUserFriendRequests,
+  subscribeToUserFriendRequests,
 } from '@/features/friend-requests';
 import { Button } from '@/components/ui/button';
 import {
@@ -96,7 +96,7 @@ export function FriendRequestDialog() {
   useEffect(() => {
     if (!currentUser) return;
 
-    const unsub = listenUserFriendRequests(currentUser.uid, (data) => {
+    const unsub = subscribeToUserFriendRequests(currentUser.uid, (data) => {
       // After getting the requests, get the users' information
       setFriendRequests(data);
     });

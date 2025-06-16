@@ -102,7 +102,7 @@ export async function fetchUserFriendRequests(
   return friendRequests.docs.map((doc) => doc.data());
 }
 
-export function listenUserFriendRequests(
+export function subscribeToUserFriendRequests(
   userId: string,
   fn: (snapshot: FriendRequest[]) => void,
 ) {
