@@ -48,7 +48,7 @@ export function SignInForm() {
 
       await signIn(email, password);
 
-      await navigate('/navigate');
+      await navigate('/chats');
     } catch (error) {
       form.setError('root', { message: handleError(error) });
       form.reset(defaultValues, { keepErrors: true });
