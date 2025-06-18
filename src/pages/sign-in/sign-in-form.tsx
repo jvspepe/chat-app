@@ -47,11 +47,11 @@ export function SignInForm() {
       const { email, password } = data;
 
       await signIn(email, password);
-
-      await navigate('/chats');
     } catch (error) {
       form.setError('root', { message: handleError(error) });
       form.reset(defaultValues, { keepErrors: true });
+    } finally {
+      void navigate('/chats');
     }
   };
 

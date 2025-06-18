@@ -101,12 +101,12 @@ export function SignUpForm() {
         firstName.concat(' ', lastName),
         avatarFile,
       );
-
-      void navigate('/chats');
     } catch (error) {
       console.log(error);
       form.setError('root', { message: handleError(error) });
       form.reset(defaultValues, { keepErrors: true });
+    } finally {
+      void navigate('/chats');
     }
   };
 
