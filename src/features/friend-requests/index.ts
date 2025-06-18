@@ -11,13 +11,10 @@ import {
   Timestamp,
   where,
 } from 'firebase/firestore';
-import {
-  type FriendRequestUserData,
-  type User,
-  type FriendRequest,
-} from '@/types/models';
+import { type UserData, type User, type FriendRequest } from '@/types/models';
 import { database } from '@/configs/app';
 import { converter } from '@/features/utils';
+import { createChat } from '@/features/chats';
 
 async function checkFriendRequest(
   senderId: string,
@@ -37,7 +34,7 @@ async function checkFriendRequest(
 }
 
 export async function createFriendRequest(
-  senderData: FriendRequestUserData,
+  senderData: UserData,
   receiverUsername: string,
 ) {
   // 1 - Get user document with matching username
@@ -124,15 +121,19 @@ export function subscribeToUserFriendRequests(
 }
 
 export async function updateFriendRequest(
-  friendRequestId: string,
+  friendRequest: FriendRequest,
   status: FriendRequest['status'],
 ) {
-  const friendRequestDoc = doc(database, 'friend_requests', friendRequestId);
+  const friendRequestDoc = doc(database, 'friend_requests', friendRequest.id);
 
   const friendRequestData: Pick<FriendRequest, 'status' | 'updatedAt'> = {
     status,
     updatedAt: Timestamp.now(),
   };
 
-  await setDoc(friendRequestDoc, friendRequestData);
+  await setDoc(friendRequestDoc, friendRequestData, { merge: true });
+
+  if (status === 'accepted') {
+    await createChat(friendRequest);
+  }
 }

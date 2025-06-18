@@ -47,12 +47,6 @@ export function FriendRequestDialog() {
 
   const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([]);
 
-  console.log(friendRequests);
-
-  const sentRequests = friendRequests.filter(
-    (request) => request.senderData.id === currentUser?.uid,
-  );
-
   const receivedRequests = friendRequests.filter(
     (request) => request.receiverData.id === currentUser?.uid,
   );
@@ -129,19 +123,7 @@ export function FriendRequestDialog() {
             {receivedRequests.map((request) => (
               <FriendRequestCard
                 key={request.id}
-                friendRequest={request.senderData}
-              />
-            ))}
-          </div>
-        </div>
-        <Separator />
-        <div>
-          <h2 className="text-lg leading-none font-semibold">Sent</h2>
-          <div className="flex flex-col gap-2">
-            {sentRequests.map((request) => (
-              <FriendRequestCard
-                key={request.id}
-                friendRequest={request.receiverData}
+                friendRequest={request}
               />
             ))}
           </div>

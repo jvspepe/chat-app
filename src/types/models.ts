@@ -19,22 +19,39 @@ export const UserSchema = z.object({
 
 export type User = z.infer<typeof UserSchema>;
 
-const FriendRequestUserDataSchema = UserSchema.pick({
+const UserDataSchema = UserSchema.pick({
   id: true,
   username: true,
   displayName: true,
   avatarUrl: true,
 });
 
-export type FriendRequestUserData = z.infer<typeof FriendRequestUserDataSchema>;
+export type UserData = z.infer<typeof UserDataSchema>;
 
 export const FriendRequestSchema = z.object({
   id: z.string(),
-  senderData: FriendRequestUserDataSchema,
-  receiverData: FriendRequestUserDataSchema,
+  senderData: UserDataSchema,
+  receiverData: UserDataSchema,
   status: z.enum(['pending', 'accepted', 'rejected']),
   createdAt: z.instanceof(Timestamp),
   updatedAt: z.instanceof(Timestamp),
 });
 
 export type FriendRequest = z.infer<typeof FriendRequestSchema>;
+
+export const ChatSchema = z.object({
+  id: z.string(),
+  memberIds: z.array(z.string()),
+  memberData: z.record(z.string(), UserDataSchema),
+  lastMessage: z
+    .object({
+      senderId: z.string(),
+      content: z.string(),
+      timestamp: z.instanceof(Timestamp),
+    })
+    .optional(),
+  createdAt: z.instanceof(Timestamp),
+  updatedAt: z.instanceof(Timestamp),
+});
+
+export type Chat = z.infer<typeof ChatSchema>;
